@@ -29,8 +29,8 @@
     created 创建完成 （关联数据，初始化事件）
     beforeMount  dom生成之前
     mount dom生成
-    （beforeUpdate  updated） 如果数据更新了，则会触发update生命周期
-    一般配合路由
+    beforeUpdate
+    updated (如果数据更新了，则会触发update生命周期一般配合路由)
     beforeDestroy
     destroyed
 
@@ -38,13 +38,14 @@
 **vue组件**
 
     特征：(基本同vue实例一样)
-    
     props:数组、对象 
     data:function(){ //函数(组件和实例对于data的定义有区别)
         return {
 
         }
     }
+
+    生命周期：（与vue实例相同，参考vue实例的生命周期）
 
 欢迎补充。
 
