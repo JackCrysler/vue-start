@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div class="box">
+    <sui-bian :tname="name" :tage="age">
+        <p slot="num1">{{data}}</p>
+        <ol slot="num2">
+            <li v-for="x in list">{{x}}</li>
+        </ol>
+    </sui-bian>
+    <div></div>
+    <!--<test-com v-on:test="getData"></test-com>-->
+    <!--<test-sec></test-sec>-->
+</div>
+<script src="lib/vue.js"></script>
+<script type="text/x-template" id="sec">
+    <div>
+        <h4>{{name}}</h4>
+        <ul>
+            <li v-for="(value,index ) in arr">{{index}}:{{value}}</li>
+        </ul>
+    </div>
+</script>
+<script>
+    //slot dom节点插槽 （组件分发）
+    // new Vue()
+
+    let eventBus = new Vue();
+
+    Vue.component('sui-bian',{
+        props:{
+            tname:{
+                type:String,
+                required:true
+            },
+            tage:{
+                type:[Number,String],
+                required:false
+            }
+        },
+        template:`<div>
+                        <h1>{{tname}}</h1>
+                        <slot name="num1"></slot>
+                        <h2>{{tage}}</h2>
+                        <slot name="num2"></slot>
+                    </div>`
+    });
+
+    new Vue({
+        el:'.box',
+        data:{
+            name:'TOM',
+            age:89,
+            data:'天若有情天亦老',
+            anc:'aaaaaaaaaaaa',
+            list:['a','b','c']
+        },
+        methods:{
+            getData:function (data) {
+                console.log(data)
+            }
+        },
+        components:{
+            "test-com":{
+                data:function () {
+                    return{
+                        name:'Jerry'
+                    }
+                },
+                template:"<h3>{{name}}</h3>",
+                mounted:function () {
+                    this.$emit('test',123213123);
+                    eventBus.$on('broToBro',(data)=> {
+                        this.name = data
+                    })
+                }
+            },
+            "test-sec": {
+                template:'#sec',
+                data:function () {
+                    return {
+                        name:'Jack',
+                        arr:[1,2,3,4]
+                    }
+                },
+                mounted:function () {
+                    eventBus.$emit('broToBro','ooooooo')
+                }
+            }
+        }
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="font/iconfont.css">
+    <style></style>
+</head>
+<body>
+
+<div class="box">
+    <input type="text" v-model="txt">
+    <h2>{{txt}}</h2>
+    <button @click="filterFn">搜索</button>
+    <table>
+        <thead>
+        <tr>
+            <td class="icon iconfont" v-bind:class={'icon-up':up,'icon-down':!up} v-on:click="arrange">序号</td>
+            <td class="icon iconfont">姓名</td>
+            <td>年龄</td>
+            <td>性别</td>
+            <td>证件号码</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="i in list">
+            <td>{{i.id}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.age}}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.idCard}}</td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script src="lib/vue.js"></script>
+<script src="lib/mock.js"></script>
+<script>
+
+    var list = Mock.mock({
+        'list|5-10':[
+            {
+                'id|+1':1,
+                "name":function () {
+                    return Mock.mock('@cname')
+                },
+                "age|1-100": 1,
+                "gender|1":['男','女'],
+                "idCard":function () {
+                    return Mock.mock('@id')
+                }
+            }
+        ]
+    });
+
+    new Vue({
+        el:'.box',
+        data:{
+            txt:'',
+            list:list.list,
+            list2:list.list,
+            up:true
+        },
+        methods:{
+            filterFn:function () {
+                let arr = [];
+
+                this.list2.forEach((value,index)=>{
+                    if(this.txt == value.id || this.txt == value.gender){
+                        arr.push(value);
+                    }
+                });
+
+                this.list = arr;
+            },
+            arrange:function () {
+                this.up = !this.up;
+                if(this.up){
+                    this.list = this.list.sort(function (a,b) {
+                        return a.id - b.id
+                    })
+                }else{
+                    this.list = this.list.sort(function (a,b) {
+                        return b.id - a.id
+                    })
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

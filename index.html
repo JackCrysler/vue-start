@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div class="box"></div>
+
+<script src="lib/vue.js"></script>
+<script>
+var v1 = new Vue({
+    el:'.box',
+    data:{
+        word:'hello world'
+    },
+    template:'<h1>{{word}}</h1>',
+    beforeCreate:function () {
+        console.log('beforeCreate')
+    },
+    created:function () {
+        console.log('created');
+    },
+    beforeMount:function () {
+        console.log('beforeMount')
+    },
+    mounted:function () {
+        console.log('mounted');
+        this.word = 'hello world 1508FE.B';
+    },
+    beforeUpdate:function () {
+        console.log('beforeUpdate')
+    },
+    updated:function () {
+        console.log('updated')
+    },
+    beforeDestroy:function () {
+        console.log('beforeDestory')
+    },
+    destroyed:function () {
+        console.log('destoryed')
+    }
+})
+
+    console.log(v1.$el);
+    setTimeout(function () {
+        v1.$destroy();
+    },10000)
+</script>
+</body>
+</html>
