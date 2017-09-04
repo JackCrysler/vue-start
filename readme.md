@@ -34,6 +34,7 @@
     beforeDestroy
     destroyed
 
+    这里面没有包含 keep-alive 时的两个生命周期，原因很简单：我们没有用到过。
 
 **vue组件**
 
@@ -46,6 +47,38 @@
     }
 
     生命周期：（与vue实例相同，参考vue实例的生命周期）
+
+**vuex**
+
+    首先明白两个概念：视图容器和数据容器。
+
+    视图容器：通过 new Vue() 所创建的实例以及通过 Vue.Component() 所定义的组件都是视图容器
+
+    数据容器：通过 new Vuex() 所创建的store则是数据容器，这个store一旦注入到vue的实例，所有视图能够获取store的数据，无论这个数据是在哪一个组件中用，这就是所谓的时光旅行（time travel）。
+
+    使用方法：
+
+        store是一个数据容器，本质是一个JavaScript对象，有4个规定的属性：state、 mutations、 actions、 getters。
+
+        1. 容器的数据都存放在state中。
+        
+        视图直接获取state的值使用 $store.[属性名]即可。如果想要对数据做一定的处理再返回使用getters，调用方式$store.getters.[getter名]即可。
+
+        2. 无论通过哪种方式，要改变state的值最终必须通过mutations。 调用方式如：$store.commit('mutations-name',data)。
+
+        mutations只能做同步的数据操作。
+
+        3. actions用来做异步操作。
+        
+        actions通过分发一个mutations来达到修改state的目的，不可以直接修改state。调用方式如：$store.dispatch('actions-name',data)。
+
+        总之：
+
+                                              =>$store.[属性名]（获取数据）
+        修改数据：actions =>mutations =>state--
+                                              =>$store.getters.[getter名]（获取数据）
+
+
 
 欢迎补充。
 
